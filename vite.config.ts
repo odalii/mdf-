@@ -4,39 +4,61 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 
-export default defineConfig(() => {
+export default defineConfig(({command}) => {
+  const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
+  const isUserSite = repoName?.toLowerCase().endsWith('.github.io');
+  const base =
+    process.env.VITE_BASE_PATH ||
+    (process.env.GITHUB_ACTIONS && repoName
+      ? isUserSite
+        ? '/'
+        : `/${repoName}/`
+      : command === 'build'
+        ? './'
+        : '/');
+
+  const pwaScope = base === './' ? './' : base;
+
   return {
+    base,
     plugins: [
       react(),
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png'],
+        includeAssets: [
+          'icon.svg',
+          'apple-touch-icon.png',
+          'pwa-192x192.png',
+          'pwa-512x512.png',
+          'pwa-maskable-512x512.png',
+        ],
         manifest: {
-          id: '/',
+          id: pwaScope,
           name: 'CutMaster MDF Optimizer',
           short_name: 'CutMaster',
-          description: 'Cloud-based MDF board cutting layout optimizer, cost calculator, and shop report generator.',
+          description:
+            'Cloud-based MDF board cutting layout optimizer, cost calculator, and shop report generator.',
           theme_color: '#181B1F',
           background_color: '#111315',
           display: 'standalone',
-          start_url: '/',
-          scope: '/',
+          start_url: pwaScope,
+          scope: pwaScope,
           icons: [
             {
-              src: '/pwa-192x192.png',
+              src: 'pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-512x512.png',
+              src: 'pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-maskable-512x512.png',
+              src: 'pwa-maskable-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',

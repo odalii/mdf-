@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, Layers, Lock, Mail, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import workshopStudioImg from '../assets/images/workshop_cnc_studio_1794766829180.jpg';
 
 type AuthMode = 'login' | 'signup' | 'reset';
 
@@ -89,7 +90,7 @@ export const AuthView: React.FC = () => {
       <div className="relative lg:col-span-7 flex flex-col justify-between bg-[#181B1F] text-white overflow-hidden min-h-[280px] lg:min-h-screen">
         {!imgError ? (
           <img
-            src="/src/assets/images/workshop_cnc_studio_1794766829180.jpg"
+            src={workshopStudioImg}
             alt="Precision CNC panel saw workshop with stacked MDF sheets"
             referrerPolicy="no-referrer"
             onError={() => setImgError(true)}

@@ -1,0 +1,8 @@
+{
+  "name": "CutMaster MDF Optimizer",
+  "description": "Cloud-based MDF board cutting layout optimizer, waste calculator, interactive CAD plan viewer, and PDF report generator for carpenters and furniture makers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

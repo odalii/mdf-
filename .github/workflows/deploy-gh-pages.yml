@@ -21,17 +21,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      # 1. We use Bun instead of Node/NPM
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: '20'
-          cache: 'npm'
+          bun-version: latest
 
+      # 2. Install using Bun
       - name: Install dependencies
-        run: npm ci
+        run: bun install
 
+      # 3. Build using Bun
       - name: Build for GitHub Pages
-        run: npm run build
+        run: bun run build
+        # ⚠️ IMPORTANT: If the build fails here, uncomment the lines below
+        # and make sure you have added your Firebase keys to GitHub Secrets!
+        # env:
+        #   VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+        #   VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+        #   VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+        #   VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+        #   VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+        #   VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
